@@ -1,5 +1,5 @@
 import re
-import os
+
 
 def create_user():
     """
@@ -50,7 +50,7 @@ def find_user_in_file(file_path, target_name):
                 continue
         else:
             return None
-            
+
         # Ищем пользователя по ФИО
         name_patterns = [r'ФИ[:\s]*([^\n]+)', r'ФИО[:\s]*([^\n]+)', r'Name[:\s]*([^\n]+)', r'Имя[:\s]*([^\n]+)']
         
