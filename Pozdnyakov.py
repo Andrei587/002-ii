@@ -39,7 +39,7 @@ def find_user_in_file(file_path, target_name):
     """
     try:
         # Пробуем разные кодировки
-        encodings = ['utf-8', 'cp1251', 'koi8-r', 'iso-8859-1']
+        encodings = ['utf-8']
         
         for encoding in encodings:
             try:
