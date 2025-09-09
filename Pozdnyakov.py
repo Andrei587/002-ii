@@ -20,7 +20,7 @@ def create_user(): #def — это ключевое слово в Python, кот
     # Создаем содержимое файла
     content = f"""Колледж: {college}
 Курс: {course}
-ФИ: {name}
+ФИО: {name}
 Команда: {group}
 ID: {user_id}"""
     
@@ -55,7 +55,7 @@ def find_user_in_file(file_path, target_name):
             return None
 
               # Ищем пользователя по ФИО с помощью регулярных выражений
-        name_patterns = [r'ФИ[:\s]*([^\n]+)', r'ФИО[:\s]*([^\n]+)', r'Name[:\s]*([^\n]+)', r'Имя[:\s]*([^\n]+)']
+        name_patterns = [r'ФИО[:\s]*([^\n]+)', r'Name[:\s]*([^\n]+)', r'Имя[:\s]*([^\n]+)']
         
         for pattern in name_patterns:  # Перебираем каждый шаблон из списка
             matches = re.findall(pattern, content, re.IGNORECASE)  # Ищем ВСЕ совпадения с шаблоном в тексте
@@ -76,7 +76,7 @@ def extract_user_data(content):
     patterns = {
         'college': [r'Колледж[:\s]*([^\n]+)', r'College[:\s]*([^\n]+)', r'Учебное заведение[:\s]*([^\n]+)'],
         'course': [r'Курс[:\s]*([^\n]+)', r'Course[:\s]*([^\n]+)'],
-        'name': [r'ФИ[:\s]*([^\n]+)', r'ФИО[:\s]*([^\n]+)', r'Name[:\s]*([^\n]+)', r'Имя[:\s]*([^\n]+)'],
+        'name': [r'ФИО[:\s]*([^\n]+)', r'Name[:\s]*([^\n]+)', r'Имя[:\s]*([^\n]+)'],
         'group': [r'Команда[:\s]*([^\n]+)', r'Группа[:\s]*([^\n]+)', r'Group[:\s]*([^\n]+)', r'Team[:\s]*([^\n]+)'],
         'id': [r'ID[:\s]*([^\n]+)', r'ИД[:\s]*([^\n]+)', r'Номер[:\s]*([^\n]+)', r'№[:\s]*([^\n]+)']
     }
@@ -185,7 +185,7 @@ def show_all_users(file_path):
             return
         
         # Ищем все записи с ФИО
-        name_patterns = [r'ФИ[:\s]*([^\n]+)', r'ФИО[:\s]*([^\n]+)', r'Name[:\s]*([^\n]+)', r'Имя[:\s]*([^\n]+)']
+        name_patterns = [r'ФИО[:\s]*([^\n]+)', r'Name[:\s]*([^\n]+)', r'Имя[:\s]*([^\n]+)']
         all_names = []
         
         for pattern in name_patterns:
