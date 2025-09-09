@@ -51,17 +51,16 @@ def find_user_in_file(file_path, target_name):
         else:
             return None
 
-        # Ищем пользователя по ФИО
+              # Ищем пользователя по ФИО с помощью регулярных выражений
         name_patterns = [r'ФИ[:\s]*([^\n]+)', r'ФИО[:\s]*([^\n]+)', r'Name[:\s]*([^\n]+)', r'Имя[:\s]*([^\n]+)']
         
-        for pattern in name_patterns:
-            matches = re.findall(pattern, content, re.IGNORECASE)
-            for match in matches:
-                if target_name.lower() in match.lower():
-                    # Нашли пользователя, извлекаем все его данные
-                    return extract_user_data(content)
+        for pattern in name_patterns:  # Перебираем каждый шаблон из списка
+            matches = re.findall(pattern, content, re.IGNORECASE)  # Ищем ВСЕ совпадения с шаблоном в тексте
+            for match in matches:  # Перебираем найденные совпадения
+                if target_name.lower() in match.lower():  # Если искомое имя (в нижнем регистре) есть в найденной строке
+                    return extract_user_data(content) 
         
-        return None
+        return None  # Если ни одно совпадение не подошло, возвращаем None (не найдено)
                 
     except FileNotFoundError:
         return None
@@ -70,9 +69,7 @@ def find_user_in_file(file_path, target_name):
         return None
 
 def extract_user_data(content):
-    """
-    Извлекает все данные пользователя из содержимого файла.
-    """
+    # Словарь, где ключ - название поля, значение - список шаблонов для его поиска
     patterns = {
         'college': [r'Колледж[:\s]*([^\n]+)', r'College[:\s]*([^\n]+)', r'Учебное заведение[:\s]*([^\n]+)'],
         'course': [r'Курс[:\s]*([^\n]+)', r'Course[:\s]*([^\n]+)'],
@@ -81,17 +78,17 @@ def extract_user_data(content):
         'id': [r'ID[:\s]*([^\n]+)', r'ИД[:\s]*([^\n]+)', r'Номер[:\s]*([^\n]+)', r'№[:\s]*([^\n]+)']
     }
     
-    found_data = {}
-    for field_name, field_patterns in patterns.items():
-        for pattern in field_patterns:
-            match = re.search(pattern, content, re.IGNORECASE)
-            if match:
-                found_data[field_name] = match.group(1).strip()
-                break
+    found_data = {}  # Создаем пустой словарь для хранения найденных данных
+    for field_name, field_patterns in patterns.items():  # Проходим по каждому полю и его шаблонам
+        for pattern in field_patterns:  # Для каждого шаблона в списке шаблонов для этого поля
+            match = re.search(pattern, content, re.IGNORECASE)  # Ищем ПЕРВОЕ совпадение в тексте
+            if match:  # Если нашли
+                found_data[field_name] = match.group(1).strip()  # Сохраняем найденное значение в словарь
+                break  # Прерываем цикл по шаблонам для этого поля, переходим к следующему полю
     
     # Проверяем, что все данные найдены
     if all(key in found_data for key in ['college', 'course', 'name', 'group', 'id']):
-        return (
+        return (  # Возвращаем кортеж, доставая значения из словаря по ключам
             found_data['college'],
             found_data['course'],
             found_data['name'],
@@ -99,7 +96,7 @@ def extract_user_data(content):
             found_data['id']
         )
     
-    return None
+    return None  # Если хотя бы одного ключа нет в словаре
 
 def main():
     """
